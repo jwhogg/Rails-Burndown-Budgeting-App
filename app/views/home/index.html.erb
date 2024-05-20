@@ -13,7 +13,7 @@
           <div class= "dropdown-item">
             <p><%= bank['name'] %></p>
             <img src="<%= bank['logo'] %>" width="20" height="20">
-            <%= button_to 'Activate', activate_bank_path(bank_id: bank['id']), method: :post, remote: true %>
+            <%= button_to 'Activate', activate_bank_path(bank_id: bank['id']), method: :post, remote: true, data: { turbo: false }%>
           </div>
           <% end %>
       <% end %>
