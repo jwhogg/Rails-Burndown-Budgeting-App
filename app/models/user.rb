@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :bank_accounts, dependent: :destroy
 
   def linked_account?
-    return current_user.bank_account.exists?
+    return self.bank_accounts.exists?
   end
 
 end

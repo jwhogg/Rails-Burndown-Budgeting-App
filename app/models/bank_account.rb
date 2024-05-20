@@ -17,17 +17,21 @@ class BankAccount < ApplicationRecord
   def get_account_details
     account = self.get_account
     return account.get_details()
+  end
 
   def get_account_balances
     account = self.get_account
     return account.get_balances()
+  end
 
   def get_account_transactions
     account = self.get_account
     return account.get_transactions()
+  end
 
   def get_account_transactions_date(from, to)#eg: "2021-12-01" "2022-01-30"
     account = self.get_account
     return account.get_transactions(date_from: from, date_to: to)
+  end
 
 end

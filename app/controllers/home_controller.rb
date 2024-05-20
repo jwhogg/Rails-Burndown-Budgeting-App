@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     user = current_user
     if !user.linked_account?
       #if the user doesnt have a linked account, redirect them to link theirs
-      redirect_to find_bank
+      redirect_to find_bank_url
     else
       #all logic goes in here, where the user DOES have a linked account
       #show transactions
