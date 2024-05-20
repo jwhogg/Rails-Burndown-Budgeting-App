@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'find_bank/index'
+  get 'find_bank/activate_bank'
+  get 'transaction/index'
+  get 'transaction/linked'
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -8,5 +12,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root to: "home#index"
-  post 'activate_bank', to: 'home#activate_bank'
+  post 'activate_bank', to: 'find_bank#activate_bank'
+  get 'find_bank', to: 'find_bank#index'
+  get 'link_landingpage', to: 'transaction#linked'
 end

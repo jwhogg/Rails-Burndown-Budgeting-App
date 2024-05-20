@@ -1,0 +1,26 @@
+<% if user_signed_in? %> 
+ <div> Link Bank Account </div> 
+ <p>Please link your Bank Account, so we can view your transactions, <%= current_user.email %></p>
+ <p>We will only be able to view account details not change anything</p>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Bank
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @banks.each do |bank| %>
+        <% @banks.each do |bank| %>
+          <div class= "dropdown-item">
+            <p><%= bank['name'] %></p>
+            <img src="<%= bank['logo'] %>" width="20" height="20">
+            <%= button_to 'Activate', activate_bank_path(bank_id: bank['id'], bank_name: bank['name']), method: :post, remote: true, data: { turbo: false }%>
+          </div>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+  <%= button_to "Sign in", new_user_session_path %> 
+<% end %>
