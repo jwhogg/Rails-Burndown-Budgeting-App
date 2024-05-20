@@ -2,6 +2,24 @@
  <div> Welcome to the Landing Page, <%= current_user.email %> </div> 
  <p>This is where you will see transactions / chart</p>
   <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Bank
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @banks.each do |bank| %>
+        <% @banks.each do |bank| %>
+          <div class= "dropdown-item">
+            <p><%= bank['name'] %></p>
+            <img src="<%= bank['logo'] %>" width="20" height="20">
+            <%= button_to 'Activate', activate_bank_path(bank_id: bank['id']), method: :post, remote: true %>
+          </div>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
 <% else %>
   <%= button_to "Sign in", new_user_session_path %> 
 <% end %>

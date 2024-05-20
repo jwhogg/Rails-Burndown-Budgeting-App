@@ -8,4 +8,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root to: "home#index"
+  post 'activate_bank', to: 'home#activate_bank'
 end
