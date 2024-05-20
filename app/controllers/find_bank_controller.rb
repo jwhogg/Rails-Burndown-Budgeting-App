@@ -35,6 +35,9 @@ class FindBankController < ApplicationController
     link = init["link"] # bank authorization link
     requisition_id = init["id"] # requisition id that is needed to get an account_id
     session[:requisition_id] = requisition_id
+    session[:reference_id] = reference_id
+    Rails.logger.info("FB, REF ID------ #{reference_id}")
+    Rails.logger.info("FB, REQ ID------ #{requisition_id}")
     Rails.logger.info("LINK------ #{link}")
     redirect_to link, allow_other_host: true
   end
