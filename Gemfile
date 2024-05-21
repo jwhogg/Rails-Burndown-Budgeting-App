@@ -6,6 +6,7 @@ ruby "3.1.2"
 gem "nordigen-ruby"
 gem "securerandom"
 gem "dotenv"
+gem 'activerecord-session_store'
 #---
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
