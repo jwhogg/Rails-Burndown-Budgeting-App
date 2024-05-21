@@ -1,6 +1,7 @@
 require_relative "../services/client"
 
 class TransactionController < ApplicationController
+  before_action :authenticate_user!
   def index
     #check to make sure their account is linked
   end
@@ -9,13 +10,28 @@ class TransactionController < ApplicationController
     #check account is linked
     #display message
     #redirect to index
+
+    #NEED TO CHECK USER IS SIGNED IN
+
     client = Client.create_client
 
-    requisition_id = session[:requisition_id]
+    Rails.logger.info("Session ID after redirect: #{request.session_options[:id]}")
+    Rails.logger.info("Session Data after redirect: #{session.to_hash}")
+
+    #retreive reqID from TemporyUserDatum
+    temporary_user_datum = TemporaryUserDatum.find_by(user: current_user)
+    requisition_id = temporary_user_datum&.requisition_id
+    
+    # requisition_id = session[:requisition_id]
     requisition_data = client.requisition.get_requisition_by_id(requisition_id)
     Rails.logger.info("TC, Req ID: #{requisition_id}")
     Rails.logger.info("TC, Req ID: #{requisition_data}")
-    account =  requisition_data["accounts"]#[0]
+    begin 
+      account =  requisition_data["accounts"]#[0] #error probably going to be thrown here
+    rescue => e
+      account =  requisition_data["accounts"][0]
+      Rails.logger.info("Error thrown trying to get accounts")
+    end
     meta_data = account.get_metadata()
     # Fetch details
     details = account.get_details()
@@ -46,5 +62,8 @@ class TransactionController < ApplicationController
     rescue => e
       Rails.logger.info("Error, failed to save bank details to user")
     end
+
+    #destroy the row the req id came from so a user can have more than one bank account
+    temporary_user_datum&.destroy
   end
 end

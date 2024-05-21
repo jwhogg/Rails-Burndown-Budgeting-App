@@ -10,6 +10,9 @@ class FindBankController < ApplicationController
     list = institutions.collect {|el| OpenStruct.new(el).marshal_dump }.to_json
     # Rails.logger.info("Value of @list: #{@list}")
     @banks = JSON.parse(list)
+
+    Rails.logger.info("Session ID before redirect: #{request.session_options[:id]}")
+    Rails.logger.info("Session Data before redirect: #{session.to_hash}")
   end
   
   def activate_bank
@@ -18,6 +21,8 @@ class FindBankController < ApplicationController
     session['bank_name'] = params['bank_name']
     # Rails.logger.info("HERE--------------------------- #{bank_id}") #this works
 
+    reference_id = SecureRandom.uuid
+
     #initalise a bank authorisation session
     init = client.init_session(
       # redirect url after successful authentication
@@ -25,7 +30,7 @@ class FindBankController < ApplicationController
       # institution id
       institution_id: bank_id,
       # a unique user ID of someone who's using your services, usually it's a UUID
-      reference_id: SecureRandom.uuid,
+      reference_id: reference_id,
       # A two-letter country code (ISO 639-1)
       user_language: "en",
       # option to enable account selection view for the end user
@@ -39,6 +44,11 @@ class FindBankController < ApplicationController
     Rails.logger.info("FB, REF ID------ #{reference_id}")
     Rails.logger.info("FB, REQ ID------ #{requisition_id}")
     Rails.logger.info("LINK------ #{link}")
+    Rails.logger.info("Session ID before redirect: #{request.session_options[:id]}")
+    Rails.logger.info("Session Data before redirect: #{session.to_hash}")
+    # store Req ID to TemporyUserDatum
+    TemporaryUserDatum.create!(user: current_user, requisition_id: requisition_id)
+
     redirect_to link, allow_other_host: true
   end
 end
