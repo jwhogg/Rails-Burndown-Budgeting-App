@@ -47,7 +47,11 @@ class FindBankController < ApplicationController
     Rails.logger.info("Session ID before redirect: #{request.session_options[:id]}")
     Rails.logger.info("Session Data before redirect: #{session.to_hash}")
     # store Req ID to TemporyUserDatum
-    TemporaryUserDatum.create!(user: current_user, requisition_id: requisition_id)
+    temporary_user_datum = TemporaryUserDatum.create!(user: current_user, requisition_id: requisition_id)
+    Rails.logger.info("TemporaryUserDatum created with requisition_id: #{temporary_user_datum.requisition_id}")
+    Rails.logger.info("current user: #{current_user.id}")
+    Rails.logger.info("TUD user: #{temporary_user_datum.user}, -- #{temporary_user_datum.user.id}")
+    Rails.logger.info("Before Retreived Req ID: #{TemporaryUserDatum.find_by(user: current_user)&.requisition_id}")
 
     redirect_to link, allow_other_host: true
   end

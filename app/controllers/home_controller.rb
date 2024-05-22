@@ -8,12 +8,13 @@ class HomeController < ApplicationController
     
     user_has_req_id = TemporaryUserDatum.exists?(user: user)
 
-    #if user doesnt have a linked account OR a Req ID in the temporary DB
+    #if user doesnt have a linked account OR not a Req ID in the temporary DB
     if !user.linked_account? || !user_has_req_id
       #if the user doesnt have a linked account, redirect them to link theirs
       redirect_to find_bank_url
     elsif user_has_req_id
       #redirect to LINKED action
+      redirect_to link_landingpage_url
     else
       #all logic goes in here, where the user DOES have a linked account
       #show transactions

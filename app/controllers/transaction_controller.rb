@@ -4,6 +4,7 @@ class TransactionController < ApplicationController
   before_action :authenticate_user!
   def index
     #check to make sure their account is linked
+    #show transactions
   end
 
   def linked #landing for after users link their account
@@ -22,16 +23,25 @@ class TransactionController < ApplicationController
     temporary_user_datum = TemporaryUserDatum.find_by(user: current_user)
     requisition_id = temporary_user_datum&.requisition_id
     
+    Rails.logger.info("TC, Retrieved requisition_id: #{requisition_id} for user: #{current_user.id}")
+
     # requisition_id = session[:requisition_id]
     requisition_data = client.requisition.get_requisition_by_id(requisition_id)
     Rails.logger.info("TC, Req ID: #{requisition_id}")
     Rails.logger.info("TC, Req ID: #{requisition_data}")
-    begin 
-      account =  requisition_data["accounts"]#[0] #error probably going to be thrown here
-    rescue => e
-      account =  requisition_data["accounts"][0]
-      Rails.logger.info("Error thrown trying to get accounts")
-    end
+
+    Rails.logger.info("Accounts: #{requisition_data["accounts"]}")
+    # begin 
+    #   account =  requisition_data["accounts"]#[0] #error probably going to be thrown here
+    # rescue => e
+    #   account =  requisition_data["accounts"][0]
+    #   Rails.logger.info("Error thrown trying to get accounts")
+    # end
+    account_id =  requisition_data["accounts"][0]
+    Rails.logger.info("account ID: #{account_id}")
+    # Instantiate account object
+    account = client.account(account_id)
+    Rails.logger.info("account: #{account}")
     meta_data = account.get_metadata()
     # Fetch details
     details = account.get_details()
