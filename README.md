@@ -1,24 +1,5 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a ruby-on-rails project to develop a budgeting app with a burndown graph. The project uses the GoCardless API to allow users to link bank accounts, so budgeting/spending information can be collected.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Currently, the project is not available to use and is in early development. Please check back another time for updates.
